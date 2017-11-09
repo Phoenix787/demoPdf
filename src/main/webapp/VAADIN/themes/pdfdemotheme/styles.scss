@@ -1,0 +1,18 @@
+@import "pdfdemotheme.scss";
+@import "addons.scss";
+
+@import "../../../VAADIN/themes/wtpdfviewer/wtpdfviewer.scss";
+
+// This file prefixes all rules with the theme name to avoid causing conflicts with other themes.
+// The actual styles should be defined in pdfdemotheme.scss
+
+.pdfdemotheme {
+  @include addons;
+  @include pdfdemotheme;
+}
+
+// these two have to be outside of the theme, because:
+// 1.) com.vaadin.sass.SassCompiler does not support @at-root
+// 2.) com.vaadin.sass.SassCompiler handles nested @media incorrectly https://github.com/vaadin/sass-compiler/issues/120
+@include wtPdfViewerMedia2dppx;
+@include wtPdfViewerPrintSupport
