@@ -6,7 +6,7 @@
 	<groupId>com.sergeeva</groupId>
 	<artifactId>demoPdf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>demoPdf</name>
 	<description>Demo project for Spring Boot</description>
@@ -28,8 +28,6 @@
 		<java.version>1.8</java.version>
 		<vaadin.version>8.1.5</vaadin.version>
 		<vaadin.plugin.version>8.1.5</vaadin.plugin.version>
-		<vaadin.widgetset.mode>cdn</vaadin.widgetset.mode>
-
 	</properties>
 
 
@@ -56,16 +54,32 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<!-- hot swapping, disable cache for template, enable live reload -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!--Mark this dependency for production mode to disable embedded tomcat-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+			<!--<scope>provided</scope>-->
+		<!--</dependency>-->
+
+
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-spring-boot-starter</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-devtools</artifactId>-->
+			<!--<scope>runtime</scope>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -77,23 +91,43 @@
 			<scope>test</scope>
 		</dependency>
 
+
+		<!--<dependency>-->
+			<!--<groupId>com.vaadin</groupId>-->
+			<!--<artifactId>vaadin-client</artifactId>-->
+			<!--<scope>provided</scope>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>com.vaadin</groupId>-->
+			<!--<artifactId>vaadin-themes</artifactId>-->
+			<!--<scope>provided</scope>-->
+		<!--</dependency>-->
+
+		<!--ADDONS-->
+
 		<dependency>
 			<groupId>com.whitestein.vaadin.widgets</groupId>
 			<artifactId>wt-pdf-viewer</artifactId>
 			<version>1.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client</artifactId>
-			<scope>provided</scope>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.vaadin</groupId>-->
+			<!--<artifactId>vaadin-compatibility-client</artifactId>-->
+			<!--<scope>provided</scope>-->
+		<!--</dependency>-->
 
 		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-themes</artifactId>
-			<scope>provided</scope>
-		</dependency>
+			<groupId>org.vaadin.addon</groupId>
+			<artifactId>easyuploads</artifactId>
+			<version>8.0.0</version>
+		</dependency><dependency>
+		<groupId>com.google.gwt</groupId>
+		<artifactId>gwt-servlet</artifactId>
+		<version>2.2.0</version>
+	</dependency>
+
 
 		<!--<dependency>-->
 			<!--<groupId>com.vaadin</groupId>-->
@@ -113,8 +147,58 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
+
+
+
+	<!--<build>-->
+
+		<!--<plugins>-->
+			<!--<plugin>-->
+				<!--<groupId>org.springframework.boot</groupId>-->
+				<!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+			<!--</plugin>-->
+			<!--<plugin>-->
+				<!--<groupId>org.apache.maven.plugins</groupId>-->
+				<!--<artifactId>maven-compiler-plugin</artifactId>-->
+				<!--<configuration>-->
+					<!--<source>1.8</source>-->
+					<!--<target>1.8</target>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
+			<!--&lt;!&ndash; Using client side Vaadin add-ons (Switch in this example)-->
+                 <!--require a custom built "widgetset". Vaadin maven plugin does-->
+                 <!--that automatically, here using a handy cloud service with CDN-->
+                 <!--hosting.-->
+            <!--&ndash;&gt;-->
+			<!--<plugin>-->
+				<!--<groupId>com.vaadin</groupId>-->
+				<!--<artifactId>vaadin-maven-plugin</artifactId>-->
+				<!--<version>${vaadin.version}</version>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<goals>-->
+							<!--&lt;!&ndash; Needed for theme: &ndash;&gt;-->
+							<!--<goal>update-widgetset</goal>-->
+							<!--<goal>compile</goal>-->
+							<!--&lt;!&ndash; Needed for theme: &ndash;&gt;-->
+							<!--<goal>update-theme</goal>-->
+							<!--<goal>compile-theme</goal>-->
+						<!--</goals>-->
+					<!--</execution>-->
+				<!--</executions>-->
+				<!--<configuration>-->
+					<!--&lt;!&ndash; Use local as value here for local widgetset compilation &ndash;&gt;-->
+					<!--<widgetsetMode>cdn</widgetsetMode>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
+		<!--</plugins>-->
+	<!--</build>-->
+
+
+
 
 	<build>
 		<plugins>
@@ -123,30 +207,31 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<!-- Exclude an unnecessary file generated by the GWT compiler. -->
+					<packagingExcludes>WEB-INF/classes/VAADIN/widgetsets/WEB-INF/**</packagingExcludes>
+				</configuration>
+			</plugin>
+
 
 			<plugin>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-maven-plugin</artifactId>
 				<version>${vaadin.plugin.version}</version>
-				<configuration>
-					<extraJvmArgs>-Xmx1g -Xss1024k</extraJvmArgs>
-
-					<!-- We are doing "inplace" gwt compilation
-                    but into subdir VAADIN/widgetsets -->
-					<webappDirectory>src/main/resources/VAADIN/widgetsets
-					</webappDirectory>
-					<hostedWebapp>src/main/resources/VAADIN/widgetsets
-					</hostedWebapp>
-					<noServer>true</noServer>
-					<!-- Remove draftCompile when project is ready -->
-					<draftCompile>true</draftCompile>
-					<persistentunitcachedir>${project.build.directory}/gwtdirt</persistentunitcachedir>
-					<compileReport>false</compileReport>
-					<style>OBF</style>
-					<strict>true</strict>
-					<!-- Symbol maps etc, not needed in vaadin app, just target them outside war -->
-					<deploy>${project.build.directory}/gwt-deploy</deploy>
-				</configuration>
 				<executions>
 					<execution>
 						<configuration>
@@ -157,96 +242,62 @@
 						<goals>
 							<goal>clean</goal>
 							<goal>resources</goal>
+
 							<!-- These are non functional currently with spring boot directory structure
                             <goal>update-theme</goal>
                             <goal>compile-theme</goal>
                              -->
 							<goal>update-widgetset</goal>
 							<goal>compile</goal>
+							<goal>update-theme</goal>
+							<goal>compile-theme</goal>
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<!-- ensure fresly compiled widgetset to jar, TODO check
-                    vaadin plugin configuration could get rid of this -->
-					<execution>
-						<id>copy-resources</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target/classes/VAADIN</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/src/main/resources/VAADIN</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+				<configuration>
+					<widgetsetMode>cdn</widgetsetMode>
+					<!--<extraJvmArgs>-Xmx1g -Xss1024k</extraJvmArgs>-->
 
-
-			<!--<plugin>-->
-				<!--<groupId>com.vaadin</groupId>-->
-				<!--<artifactId>vaadin-maven-plugin</artifactId>-->
-				<!--<version>${vaadin.plugin.version}</version>-->
-				<!--<configuration>-->
-					<!--<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>-->
-					<!--<webappDirectory>${basedir}/target/classes/VAADIN/widgetsets</webappDirectory>-->
+					<!--&lt;!&ndash; We are doing "inplace" gwt compilation-->
+                    <!--but into subdir VAADIN/widgetsets &ndash;&gt;-->
+					<!--<webappDirectory>src/main/resources/VAADIN/widgetsets-->
+					<!--</webappDirectory>-->
+					<!--<hostedWebapp>src/main/resources/VAADIN/widgetsets-->
+					<!--</hostedWebapp>-->
+					<!--<noServer>true</noServer>-->
+					<!--&lt;!&ndash; Remove draftCompile when project is ready &ndash;&gt;-->
 					<!--<draftCompile>true</draftCompile>-->
+					<!--<persistentunitcachedir>${project.build.directory}/gwtdirt</persistentunitcachedir>-->
 					<!--<compileReport>false</compileReport>-->
-					<!--&lt;!&ndash; Change to PRETTY (or possibly DETAILED) to get-->
-                    <!--unobfuscated client side stack traces. A better approach-->
-                    <!--for debugging is to use Super Dev Mode &ndash;&gt;-->
 					<!--<style>OBF</style>-->
 					<!--<strict>true</strict>-->
-				<!--</configuration>-->
+					<!--&lt;!&ndash; Symbol maps etc, not needed in vaadin app, just target them outside war &ndash;&gt;-->
+					<!--<deploy>${project.build.directory}/gwt-deploy</deploy>-->
+				</configuration>
+
+			</plugin>
+			<!--<plugin>-->
+				<!--<artifactId>maven-resources-plugin</artifactId>-->
 				<!--<executions>-->
+					<!--&lt;!&ndash; ensure fresly compiled widgetset to jar, TODO check-->
+                    <!--vaadin plugin configuration could get rid of this &ndash;&gt;-->
 					<!--<execution>-->
+						<!--<id>copy-resources</id>-->
+						<!--<phase>prepare-package</phase>-->
 						<!--<goals>-->
-							<!--<goal>update-widgetset</goal>-->
-							<!--<goal>compile</goal>-->
+							<!--<goal>copy-resources</goal>-->
 						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<outputDirectory>${basedir}/target/classes/VAADIN</outputDirectory>-->
+							<!--<resources>-->
+								<!--<resource>-->
+									<!--<directory>${basedir}/src/main/resources/VAADIN</directory>-->
+								<!--</resource>-->
+							<!--</resources>-->
+						<!--</configuration>-->
 					<!--</execution>-->
 				<!--</executions>-->
 			<!--</plugin>-->
-			<!--<plugin>-->
-				<!--<groupId>org.apache.maven.plugins</groupId>-->
-				<!--<artifactId>maven-source-plugin</artifactId>-->
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<goals>-->
-							<!--<goal>jar</goal>-->
-						<!--</goals>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			<!--</plugin>-->
-			<!--<plugin>-->
-				<!--<groupId>org.apache.maven.plugins</groupId>-->
-				<!--<artifactId>maven-jar-plugin</artifactId>-->
-				<!--<version>2.6</version>-->
-				<!--<configuration>-->
-					<!--<archive>-->
-						<!--<manifestEntries>-->
-							<!--<Vaadin-Package-Version>1</Vaadin-Package-Version>-->
-							<!--&lt;!&ndash;<Vaadin-Widgetsets>vaadinAppExample.MyAppWidgetset</Vaadin-Widgetsets>&ndash;&gt;-->
-						<!--</manifestEntries>-->
-					<!--</archive>-->
-					<!--&lt;!&ndash; Exclude some unnecessary files generated by the-->
-                        <!--GWT compiler. &ndash;&gt;-->
-					<!--<excludes>-->
-						<!--<exclude>VAADIN/gwt-unitCache/**</exclude>-->
-						<!--<exclude>VAADIN/widgetsets/WEB-INF/**</exclude>-->
-					<!--</excludes>-->
-				<!--</configuration>-->
-			<!--</plugin>-->
-
-
 
 		</plugins>
 	</build>

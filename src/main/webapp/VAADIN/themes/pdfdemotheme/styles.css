@@ -16437,6 +16437,25 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
+.pdfdemotheme .drop-area {
+	border-radius: 20px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	-ms-border-radius: 20px;
+	-o-border-radius: 20px;
+	padding: 40px;
+	border: 8px dashed #a4a4a2;
+}
+
+.pdfdemotheme .drop-area .v-label {
+	color: #919083;
+	font-weight: bold;
+	font-size: 17px;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: middle;
+}
+
 @media screen and (min-resolution: 2dppx) {
 	.toolbarButton::before {
 		-webkit-transform: scale(0.5);

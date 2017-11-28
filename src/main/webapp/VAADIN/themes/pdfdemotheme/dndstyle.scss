@@ -31,28 +31,9 @@
 
 @import "../valo/valo.scss";
 
-@mixin pdfdemotheme {
+@mixin dndstyle {
   @include valo;
 
   // Insert your own theme rules here
-  .drop-area {
-    	border-radius: 20px;
-    	-webkit-border-radius: 20px;
-    	-moz-border-radius: 20px;
-    	-ms-border-radius: 20px;
-    	-o-border-radius: 20px;
-
-    	padding: 40px;
-    	border: 8px dashed #a4a4a2;
-    }
-
-    .drop-area .v-label {
-    	color: #919083;
-    	font-weight: bold;
-    	font-size: 17px;
-    	margin-left: auto;
-        margin-right: auto;
-        vertical-align: middle;
-    }
 
 }
